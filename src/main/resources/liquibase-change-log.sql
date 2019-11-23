@@ -1,0 +1,14 @@
+--liquibase formatted sql
+--changeset nvoxland:1
+select 1;
+
+--changeset nvoxland:2
+INSERT INTO users(id, username, name, password, enabled) 
+SELECT 1, 'superuser@management-equipments.com', 'Super User', '$2a$10$EXHs2XSi8bgA7C1TBiDkWeISW3YBlTqYIjVF75MVrdqB6GfO1GNA.', true
+ WHERE NOT EXISTS (SELECT username FROM users WHERE username = 'superuser@management-equipments.com');
+ 
+INSERT INTO roles SELECT 1,'ADMIN' WHERE NOT EXISTS (SELECT role FROM roles WHERE role = 'ADMIN');
+
+INSERT INTO roles SELECT 2,'NORMAL' WHERE NOT EXISTS (SELECT role FROM roles WHERE role = 'NORMAL');
+
+INSERT INTO user_role SELECT 1, 1 WHERE NOT EXISTS (SELECT user_id FROM user_role WHERE user_id = 1);
